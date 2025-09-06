@@ -1,0 +1,17 @@
+# Netlify configuration for Next.js (App Router) using Netlify Next.js Runtime
+# Docs: https://docs.netlify.com/integrations/frameworks/next-js/overview/
+
+[build]
+  command = "pnpm build"
+  publish = ".next"
+
+[functions]
+  node_bundler = "esbuild"
+
+[plugins]
+  package = "@netlify/plugin-nextjs"
+
+# Optional: set environment variables (can also be set in Netlify UI)
+# [template.environment]
+#   ADMIN_USERNAME = "admin"
+#   ADMIN_PASSWORD = "admin1123"

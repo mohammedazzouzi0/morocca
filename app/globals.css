@@ -1,0 +1,181 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Updated to Moroccan color palette */
+  --background: oklch(0.98 0.01 85); /* cream #f4f1de */
+  --foreground: oklch(0.25 0.02 260); /* navy blue #3d405b */
+  --card: oklch(0.98 0.01 85);
+  --card-foreground: oklch(0.25 0.02 260);
+  --popover: oklch(0.98 0.01 85);
+  --popover-foreground: oklch(0.25 0.02 260);
+  --primary: oklch(0.65 0.15 35); /* terracotta #e07a5f */
+  --primary-foreground: oklch(0.98 0.01 85);
+  --secondary: oklch(0.85 0.08 75); /* gold #f2cc8f */
+  --secondary-foreground: oklch(0.25 0.02 260);
+  --muted: oklch(0.95 0.01 85);
+  --muted-foreground: oklch(0.45 0.02 260);
+  --accent: oklch(0.85 0.08 75);
+  --accent-foreground: oklch(0.25 0.02 260);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.98 0.01 85);
+  --border: oklch(0.9 0.02 85);
+  --input: oklch(0.95 0.01 85);
+  --ring: oklch(0.65 0.15 35);
+
+  /* Added Moroccan-specific colors */
+  --moroccan-terracotta: oklch(0.65 0.15 35); /* #e07a5f */
+  --moroccan-gold: oklch(0.85 0.08 75); /* #f2cc8f */
+  --moroccan-navy: oklch(0.25 0.02 260); /* #3d405b */
+  --moroccan-cream: oklch(0.98 0.01 85); /* #f4f1de */
+
+  --chart-1: oklch(0.65 0.15 35);
+  --chart-2: oklch(0.85 0.08 75);
+  --chart-3: oklch(0.25 0.02 260);
+  --chart-4: oklch(0.75 0.12 45);
+  --chart-5: oklch(0.55 0.18 25);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.98 0.01 85);
+  --sidebar-foreground: oklch(0.25 0.02 260);
+  --sidebar-primary: oklch(0.65 0.15 35);
+  --sidebar-primary-foreground: oklch(0.98 0.01 85);
+  --sidebar-accent: oklch(0.95 0.01 85);
+  --sidebar-accent-foreground: oklch(0.25 0.02 260);
+  --sidebar-border: oklch(0.9 0.02 85);
+  --sidebar-ring: oklch(0.65 0.15 35);
+}
+
+.dark {
+  --background: oklch(0.15 0.02 260);
+  --foreground: oklch(0.98 0.01 85);
+  --card: oklch(0.18 0.02 260);
+  --card-foreground: oklch(0.98 0.01 85);
+  --popover: oklch(0.15 0.02 260);
+  --popover-foreground: oklch(0.98 0.01 85);
+  --primary: oklch(0.65 0.15 35);
+  --primary-foreground: oklch(0.98 0.01 85);
+  --secondary: oklch(0.75 0.08 75);
+  --secondary-foreground: oklch(0.15 0.02 260);
+  --muted: oklch(0.22 0.02 260);
+  --muted-foreground: oklch(0.7 0.01 85);
+  --accent: oklch(0.22 0.02 260);
+  --accent-foreground: oklch(0.98 0.01 85);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.98 0.01 85);
+  --border: oklch(0.22 0.02 260);
+  --input: oklch(0.22 0.02 260);
+  --ring: oklch(0.65 0.15 35);
+  --sidebar: oklch(0.18 0.02 260);
+  --sidebar-foreground: oklch(0.98 0.01 85);
+  --sidebar-primary: oklch(0.65 0.15 35);
+  --sidebar-primary-foreground: oklch(0.98 0.01 85);
+  --sidebar-accent: oklch(0.22 0.02 260);
+  --sidebar-accent-foreground: oklch(0.98 0.01 85);
+  --sidebar-border: oklch(0.22 0.02 260);
+  --sidebar-ring: oklch(0.65 0.15 35);
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-arabic: var(--font-amiri);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Added Moroccan color utilities */
+  --color-moroccan-terracotta: var(--moroccan-terracotta);
+  --color-moroccan-gold: var(--moroccan-gold);
+  --color-moroccan-navy: var(--moroccan-navy);
+  --color-moroccan-cream: var(--moroccan-cream);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /* Added Moroccan pattern utilities */
+  .moroccan-pattern {
+    background-image: radial-gradient(circle at 25% 25%, rgba(224, 122, 95, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(242, 204, 143, 0.1) 0%, transparent 50%);
+  }
+
+  .zellige-border {
+    border-image: linear-gradient(
+        45deg,
+        var(--color-moroccan-terracotta),
+        var(--color-moroccan-gold),
+        var(--color-moroccan-terracotta)
+      )
+      1;
+  }
+
+  .arabic-text {
+    font-family: var(--font-arabic);
+    font-feature-settings: "liga" 1, "calt" 1;
+  }
+
+  /* RTL support */
+  [dir="rtl"] {
+    text-align: right;
+  }
+
+  [dir="rtl"] .flex {
+    flex-direction: row-reverse;
+  }
+}
+
+/* Added Moroccan-themed animations */
+@keyframes moroccan-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.moroccan-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(242, 204, 143, 0.3), transparent);
+  background-size: 200% 100%;
+  animation: moroccan-shimmer 2s infinite;
+}
