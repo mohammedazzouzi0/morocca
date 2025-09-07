@@ -2,14 +2,16 @@
 # Docs: https://docs.netlify.com/integrations/frameworks/next-js/overview/
 
 [build]
-  command = "pnpm build"
+  command = "npm run build"
   publish = ".next"
 
 [functions]
   node_bundler = "esbuild"
 
-[plugins]
+[[plugins]]
   package = "@netlify/plugin-nextjs"
+
+# For static export, the Next.js Runtime plugin is not needed.
 
 # Optional: set environment variables (can also be set in Netlify UI)
 # [template.environment]

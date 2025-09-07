@@ -3,6 +3,8 @@ import { NextResponse } from "next/server"
 const ADMIN_COOKIE = "admin-auth"
 const MAX_AGE = 60 * 60 * 24 * 7 // 7 days
 
+export const dynamic = "force-dynamic"
+
 export async function POST(req: Request) {
   const contentType = req.headers.get("content-type") || ""
 

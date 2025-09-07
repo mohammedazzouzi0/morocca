@@ -233,7 +233,7 @@ const translations = {
 
     // Order Confirmation
     newOrder: "New Order",
-    orderItems: "Order Items",
+    orderItemsConfirmation: "Order Items",
     notes: "Notes",
     none: "None",
     backToHome: "Back to Home",
@@ -499,7 +499,7 @@ const translations = {
 
     // Order Confirmation
     newOrder: "طلب جديد",
-    orderItems: "عناصر الطلب",
+    orderItemsConfirmation: "عناصر الطلب",
     notes: "ملاحظات",
     none: "لا يوجد",
     backToHome: "العودة للرئيسية",
@@ -769,7 +769,7 @@ const translations = {
 
     // Order Confirmation
     newOrder: "Nouvelle Commande",
-    orderItems: "Articles de Commande",
+    orderItemsConfirmation: "Articles de Commande",
     notes: "Notes",
     none: "Aucune",
     backToHome: "Retour à l'Accueil",
@@ -1035,7 +1035,7 @@ const translations = {
 
     // Order Confirmation
     newOrder: "طلبية جديدة",
-    orderItems: "حاجات الطلبية",
+    orderItemsConfirmation: "حاجات الطلبية",
     notes: "ملاحظات",
     none: "ماكاين",
     backToHome: "رجع للداخلة",
