@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useLanguage } from "@/contexts/LanguageContext"
-import { getProducts, saveProducts } from "@/lib/products"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { ArrowLeft, Save, Plus, X } from "lucide-react"
@@ -82,12 +81,10 @@ export default function NewProductPage() {
     setIsSubmitting(true)
 
     try {
-      const products = getProducts()
-      const newProduct = {
-        id: Date.now().toString(),
+      const payload = {
         ...product,
-        price: Number.parseFloat(product.price),
-        stock: Number.parseInt(product.stock),
+        price: Number.parseFloat(product.price as unknown as string),
+        stock: Number.parseInt(product.stock as unknown as string),
         colors: product.colors.filter((c) => c.trim() !== ""),
         sizes: product.sizes.filter((s) => s.trim() !== ""),
         images: images.length > 0 ? images : ["/placeholder.svg"],
@@ -95,8 +92,12 @@ export default function NewProductPage() {
         createdAt: new Date().toISOString().split("T")[0],
       }
 
-      const updatedProducts = [...products, newProduct]
-      saveProducts(updatedProducts)
+      const res = await fetch("/api/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+      if (!res.ok) throw new Error("Failed to create product")
       router.push("/admin/products")
     } catch (error) {
       console.error("Error creating product:", error)

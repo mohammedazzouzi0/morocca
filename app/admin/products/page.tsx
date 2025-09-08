@@ -6,7 +6,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { useLanguage } from "@/contexts/LanguageContext"
-import { getProducts, saveProducts } from "@/lib/products"
 import Image from "next/image"
 import Link from "next/link"
 import { Search, Plus, Edit, Trash2, Eye, ArrowLeft } from "lucide-react"
@@ -18,14 +17,27 @@ export default function AdminProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState("all")
 
   useEffect(() => {
-    setProducts(getProducts())
+    const load = async () => {
+      try {
+        const res = await fetch("/api/products", { cache: "no-store" })
+        if (!res.ok) throw new Error("Failed to fetch products")
+        const data = await res.json()
+        setProducts(data)
+      } catch (e) {
+        console.error(e)
+      }
+    }
+    load()
   }, [])
 
-  const handleDeleteProduct = (productId: string) => {
-    if (confirm(t("confirmDeleteProduct"))) {
-      const updatedProducts = products.filter((p) => p.id !== productId)
-      setProducts(updatedProducts)
-      saveProducts(updatedProducts)
+  const handleDeleteProduct = async (productId: string) => {
+    if (!confirm(t("confirmDeleteProduct"))) return
+    try {
+      const res = await fetch(`/api/products/${productId}`, { method: "DELETE" })
+      if (!res.ok) throw new Error("Failed to delete product")
+      setProducts((prev) => prev.filter((p) => p.id !== productId))
+    } catch (e) {
+      console.error(e)
     }
   }
 

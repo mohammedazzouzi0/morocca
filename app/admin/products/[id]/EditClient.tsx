@@ -10,7 +10,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useLanguage } from "@/contexts/LanguageContext"
-import { getProducts, saveProducts, type Product } from "@/lib/products"
 import { ArrowLeft, Save, Plus, X, Trash2 } from "lucide-react"
 
 export default function EditClient({ productId }: { productId: string }) {
@@ -38,28 +37,35 @@ export default function EditClient({ productId }: { productId: string }) {
   })
 
   useEffect(() => {
-    const products = getProducts()
-    const p = products.find((pp) => pp.id === productId) as Product | undefined
-    if (p) {
-      setProduct({
-        name: p.name,
-        nameAr: p.nameAr,
-        nameFr: p.nameFr,
-        nameDarija: p.nameDarija,
-        description: p.description,
-        descriptionAr: p.descriptionAr,
-        descriptionFr: p.descriptionFr,
-        descriptionDarija: p.descriptionDarija,
-        price: String(p.price),
-        category: p.category,
-        colors: p.colors.length ? p.colors : [""],
-        sizes: p.sizes.length ? p.sizes : [""],
-        stock: String(p.stock ?? 0),
-        featured: !!p.featured,
-      })
-      setImages(p.images && p.images.length ? p.images : [])
+    const load = async () => {
+      try {
+        const res = await fetch(`/api/products/${productId}`, { cache: "no-store" })
+        if (!res.ok) throw new Error("Failed to fetch product")
+        const p = await res.json()
+        setProduct({
+          name: p.name || "",
+          nameAr: p.nameAr || "",
+          nameFr: p.nameFr || "",
+          nameDarija: p.nameDarija || "",
+          description: p.description || "",
+          descriptionAr: p.descriptionAr || "",
+          descriptionFr: p.descriptionFr || "",
+          descriptionDarija: p.descriptionDarija || "",
+          price: String(p.price ?? ""),
+          category: p.category || "traditional",
+          colors: Array.isArray(p.colors) && p.colors.length ? p.colors : [""],
+          sizes: Array.isArray(p.sizes) && p.sizes.length ? p.sizes : [""],
+          stock: String(p.stock ?? ""),
+          featured: !!p.featured,
+        })
+        setImages(Array.isArray(p.images) && p.images.length ? p.images : [])
+      } catch (e) {
+        console.error(e)
+      } finally {
+        setLoading(false)
+      }
     }
-    setLoading(false)
+    load()
   }, [productId])
 
   const handleInputChange = (field: string, value: any) => {
@@ -103,12 +109,15 @@ export default function EditClient({ productId }: { productId: string }) {
     setImages((prev) => prev.filter((_, i) => i !== index))
   }
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!productId) return
-    if (confirm(t("confirmDeleteProduct"))) {
-      const products = getProducts().filter((p) => p.id !== productId)
-      saveProducts(products)
+    if (!confirm(t("confirmDeleteProduct"))) return
+    try {
+      const res = await fetch(`/api/products/${productId}`, { method: "DELETE" })
+      if (!res.ok) throw new Error("Failed to delete product")
       router.push("/admin/products")
+    } catch (e) {
+      console.error(e)
     }
   }
 
@@ -117,22 +126,20 @@ export default function EditClient({ productId }: { productId: string }) {
     setIsSubmitting(true)
 
     try {
-      const products = getProducts()
-      const idx = products.findIndex((p) => p.id === productId)
-      if (idx === -1) return
-
-      const updated: Product = {
-        ...(products[idx] as Product),
+      const payload = {
         ...product,
-        price: Number.parseFloat(product.price),
-        stock: Number.parseInt(product.stock),
+        price: Number.parseFloat(product.price as unknown as string),
+        stock: Number.parseInt(product.stock as unknown as string),
         colors: product.colors.filter((c) => c.trim() !== ""),
         sizes: product.sizes.filter((s) => s.trim() !== ""),
         images: images.length > 0 ? images : ["/placeholder.svg"],
       }
-
-      products[idx] = updated
-      saveProducts(products)
+      const res = await fetch(`/api/products/${productId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+      if (!res.ok) throw new Error("Failed to update product")
       router.push("/admin/products")
     } catch (error) {
       console.error("Error updating product:", error)
