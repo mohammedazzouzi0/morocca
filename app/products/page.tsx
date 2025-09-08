@@ -1,9 +1,7 @@
-import ProductListClient from "@/components/products/ProductListClient"
-import { getAllProducts } from "@/lib/server/products"
+import ProductListFetcherClient from "@/components/products/ProductListFetcherClient"
 
 export const revalidate = 0
 
-export default async function ProductsPage() {
-  const products = await getAllProducts()
-  return <ProductListClient products={products} />
+export default function ProductsPage() {
+  return <ProductListFetcherClient />
 }

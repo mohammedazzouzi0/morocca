@@ -6,7 +6,11 @@
   publish = ".next"
 
 [functions]
+  directory = "functions"
   node_bundler = "esbuild"
+  included_files = [
+    "data/products.json"
+  ]
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
